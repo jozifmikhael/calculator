@@ -19,12 +19,14 @@ let saveOp = undefined;
 // operator event listener
 operators.forEach( operator => {
     operator.addEventListener('click', event => {
-
+        if (event.target.id === '=' && stack[stack.length-1] === '=')
+            return;
         if (event.target.id === '='){
             let prevOperator = '';
-            if (typeof saveOp === 'string')
+            if (typeof saveOp === 'string'){
                 prevOperator = saveOp;
-            else
+                saveOp = undefined;
+            } else
                 prevOperator = stack.pop();
 
            let prevNum = stack.pop();
@@ -45,9 +47,10 @@ operators.forEach( operator => {
 // digits event listener
 digits.forEach( digit => {
     digit.addEventListener('click', event => {
-        if (stack.length === 2)
-        display.textContent == '';
-        saveOp = stack.pop();
+        if (stack.length === 2){
+            saveOp = stack.pop();
+            display.textContent = '';
+        }
         // check if display length is greater than 1 billion and add digit to display
         display.textContent.length <= 9 ? display.textContent += event.target.textContent : console.warn('max number reached');
     });
@@ -65,7 +68,7 @@ function operate(operator, n1, n2){
     let answer = 0;
     switch(operator){
         case '+':
-            answer = addFunc(n1, n2);
+            answer = addFunc(+n1, +n2);
             break;
         case '-':
             answer = subtractFunc(n1, n2);
