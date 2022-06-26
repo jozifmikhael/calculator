@@ -9,27 +9,45 @@ let operators = document.querySelectorAll('.operator');
 
 
 // stacks to store numbers and operators
-let numStack = [];
-let opStack = [];
+let stack = [];
 
 // clear event listener
 clear.addEventListener('click', () => {
     display.textContent = '';
 });
-
-
+let saveOp = undefined;
 // operator event listener
 operators.forEach( operator => {
     operator.addEventListener('click', event => {
 
+        if (event.target.id === '='){
+            let prevOperator = '';
+            if (typeof saveOp === 'string')
+                prevOperator = saveOp;
+            else
+                prevOperator = stack.pop();
+
+           let prevNum = stack.pop();
+           let currNum = display.textContent;
+           display.textContent = operate(prevOperator, prevNum, currNum);
+        }
+        
+        if (stack.length === 2 &&  event.target.id !== '='){
+            stack.pop();
+            stack.push(event.target.id);
+            return;
+        } 
+        stack.push(+display.textContent);
+        stack.push(event.target.id);
+        console.log(stack.length);
     });
 });
-
 // digits event listener
 digits.forEach( digit => {
     digit.addEventListener('click', event => {
-
-            
+        if (stack.length === 2)
+        display.textContent == '';
+        saveOp = stack.pop();
         // check if display length is greater than 1 billion and add digit to display
         display.textContent.length <= 9 ? display.textContent += event.target.textContent : console.warn('max number reached');
     });
