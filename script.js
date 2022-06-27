@@ -13,24 +13,21 @@ let stack = [];
 
 // clear event listener
 clear.addEventListener('click', () => {
+    stack = [];
     display.textContent = '';
 });
 let saveOp = undefined;
 // operator event listener
 operators.forEach( operator => {
     operator.addEventListener('click', event => {
+        
         if (typeof saveOp === 'string'){
             stack.push(saveOp);
             saveOp = undefined;
         }
-        if ((event.target.id === '=' && stack[stack.length-1] === '=')){
-            console.trace();
-            return;
-        }
-            
-        if ((stack.length < 2 && event.target.id === '=')){
-            console.log(stack.length);
-            console.trace()
+
+        if ((stack.length < 2 && event.target.id === '=') || 
+        (event.target.id === '=' && stack[stack.length-1] === '=')){
             return;
         }
 
