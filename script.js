@@ -16,6 +16,7 @@ display.textContent = null;
 
 // clear event listener
 clear.addEventListener('click', () => {
+    // clear stack and saveOp
     stack = [];
     saveOp = undefined;
     display.textContent = null;
@@ -27,7 +28,10 @@ equals.addEventListener('click', () => {
     checkEqualsValidity();
 });
 
+// use saveOp to hold operator when entering second number in display
+// see digits event handler
 saveOp = undefined;
+
 function checkEqualsValidity(){
     // stack must have a number and operator in there and display text must not be empty
     // if stack length is 2, perform operation on number itself
@@ -56,18 +60,19 @@ operators.forEach( operator => {
 
 
 function checkOperatorValidity(event){
-    // if stack length is less than 2 add operator and display text, 
-    // if stack.length == 2, and display.text === stack[0] change operator else
-    // perform operation
+    // if saveOp is storing operator, push to stack and make saveOp null
     if (typeof saveOp === 'string'){
         stack.push(saveOp);
         saveOp = undefined;
     }
-
+    // if operator is not valid, push the clicked operator and return
     if (stack.length === 1 && typeof saveOp === "undefined"){
         stack.push(event.target.id)
         return;
     }
+
+    // if stack is empty, push display number and operator
+    // else we pop operator from stack and operate on prev number and display number
     if (stack.length === 0){
         stack.push(+display.textContent);
         stack.push(event.target.id);
@@ -78,15 +83,16 @@ function checkOperatorValidity(event){
         display.textContent = operate(op, num1, num2);
         stack.push(+display.textContent);
     }
+    // push event clicked to stack to keep stack length at 2 after operate() call
     if(stack.length === 1){
         stack.push(event.target.id);
     }
-    
 }
 
 // digits event listener
 digits.forEach( digit => {
     digit.addEventListener('click', event => {
+        // clear display and save operator in saveOp
         if (stack.length == 2){
             saveOp = stack.pop();
             display.textContent = '';
