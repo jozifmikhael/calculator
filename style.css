@@ -1,0 +1,90 @@
+@font-face {
+    font-family: 'digital-font';
+    src: url(./fonts/digital-7.regular.ttf);
+}
+
+body{
+    margin: 0;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.calc-container{
+    width: 250px;
+    height: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    background-color: gray;
+    border: 2px solid orange;
+    border-radius: 4px;
+}
+
+.display{
+    padding-right: 4px;
+    font-family: 'digital-font';
+    display: flex;
+    width: 240px;
+    height: 40px;
+    background-color: darkgray;
+    color: black;
+    justify-content: end;
+    align-items: center;
+    font-size: 34px;
+}
+
+.equals-decimal, .zero-clear-plusminus,
+.top3, .mid3, .bottom3{
+    display: flex;
+    gap: 2px;
+}
+.equals{
+    flex: 2;
+    width: 56%;
+}
+
+.button-container{
+    width: 200px;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2px;
+}
+
+.digits{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.digits button{
+    background-color: black;
+    color: white;
+}
+
+.operators{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.operators button{
+    background-color: rgba(34, 34, 212, 0.904);
+}
+
+button{
+    border-radius: 4px;
+    background-color: red;
+    padding: 1px 0;
+    font-size: 24px;
+    text-align: center;
+    width: 59px;
+    height: 40px;
+}
+
+button:hover{
+    opacity: 0.2;
+}

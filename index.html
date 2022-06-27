@@ -13,7 +13,6 @@
 
         <div class="button-container">
             <div class="digits">
-                <button class="clear" type="button"> C</button>
                 <div class="top3">
                     <button class="digit seven" type="button">7</button>
                     <button class="digit eight" type="button">8</button>
@@ -28,19 +27,28 @@
                     <button class="digit one" type="button">1</button>
                     <button class="digit three" type="button">3</button>
                     <button class="digit two" type="button">2</button>
+                </div>
+                <div class="zero-clear-plusminus">
+                    <button class="digit zero" type="button">0</button>
+                    <button class="sign" type="button">+/-</button>
+                    <button class="clear" type="button"> C</button>
                 </div>    
-                <button class="digit zero" type="button">0</button>
-                
+                <div class="equals-decimal">
+                    <button class="equals" id="=" type="button">=</button>
+                    <button class="decimal">.</button>
+                </div>
             </div>
-            
+        
             <div class="operators">
                 <button class="operator" id="+" type="button">+</button>
                 <button class="operator" id="-" type="button">-</button>
                 <button class="operator" id="*" type="button">x</button>
                 <button class="operator" id="/" type="button">/</button>
-                <button id="=" type="button">=</button>
+                <button class="percentage" id="%" type="button">%</button>
             </div>
-        </div>        
+            
+        </div> 
+               
     </div>
 
     <script src="./script.js"></script>
