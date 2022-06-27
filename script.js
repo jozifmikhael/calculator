@@ -10,37 +10,57 @@ let operators = document.querySelectorAll('.operator');
 
 // stacks to store numbers and operators
 let stack = [];
-
+display.textContent = null;
 // clear event listener
 clear.addEventListener('click', () => {
+    stack = [];
     display.textContent = '';
 });
 let saveOp = undefined;
 // operator event listener
 operators.forEach( operator => {
     operator.addEventListener('click', event => {
-        if (event.target.id === '=' && stack[stack.length-1] === '=')
-            return;
-        if (event.target.id === '='){
-            let prevOperator = '';
-            if (typeof saveOp === 'string'){
-                prevOperator = saveOp;
+        if (typeof saveOp === 'string'){
+            if (event.target.id !== '='){
+                let prevOperator = saveOp;
+                let prevNum = stack.pop();
+                let currNum = display.textContent;
+                display.textContent = operate(prevOperator, prevNum, currNum);
+            } else {
+                stack.push(saveOp);
                 saveOp = undefined;
-            } else
-                prevOperator = stack.pop();
+            }
+        }
+
+        if ((stack.length < 2 && event.target.id === '=') ||
+        (event.target.id === '=' && stack[stack.length-1] === '=')){
+            return;
+        }
+
+        if (event.target.id === '='){
+            let prevOperator = stack.pop();
 
            let prevNum = stack.pop();
            let currNum = display.textContent;
            display.textContent = operate(prevOperator, prevNum, currNum);
         }
         
-        if (stack.length === 2 &&  event.target.id !== '='){
+        if (stack.length === 2 && event.target.id !== '='){
+            console.trace();
             stack.pop();
             stack.push(event.target.id);
             return;
-        } 
-        stack.push(+display.textContent);
-        stack.push(event.target.id);
+        } else if (stack.length == 2 && display.textContent !== ''){
+            let prevOperator = stack.pop();
+            let prevNum = stack.pop();
+            let currNum = display.textContent;
+            display.textContent = operate(prevOperator, prevNum, currNum);
+        }
+
+        if (display.textContent !== ''){
+            stack.push(+display.textContent);
+            stack.push(event.target.id);
+        }
         console.log(stack.length);
     });
 });

@@ -1,0 +1,39 @@
+.calc-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.operators{
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container{
+    display: flex;
+}
+
+.clear{
+    flex-grow: 0;
+}
+
+.display{
+    margin: 6px 0;
+    padding: 6px;
+    background-color: aliceblue;
+    width: 100px;
+    height: 16px;
+    text-align: right;
+}
+
+.digits{
+    width: 90px;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.operator{
+    flex: 0 1 0;
+}
