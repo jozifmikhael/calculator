@@ -19,22 +19,32 @@ let saveOp = undefined;
 // operator event listener
 operators.forEach( operator => {
     operator.addEventListener('click', event => {
-        if (event.target.id === '=' && stack[stack.length-1] === '=')
+        if (typeof saveOp === 'string'){
+            stack.push(saveOp);
+            saveOp = undefined;
+        }
+        if ((event.target.id === '=' && stack[stack.length-1] === '=')){
+            console.trace();
             return;
+        }
+            
+        if ((stack.length < 2 && event.target.id === '=')){
+            console.log(stack.length);
+            console.trace()
+            return;
+        }
+
         if (event.target.id === '='){
-            let prevOperator = '';
-            if (typeof saveOp === 'string'){
-                prevOperator = saveOp;
-                saveOp = undefined;
-            } else
-                prevOperator = stack.pop();
+            console.trace();
+            let prevOperator = stack.pop();
 
            let prevNum = stack.pop();
            let currNum = display.textContent;
            display.textContent = operate(prevOperator, prevNum, currNum);
         }
         
-        if (stack.length === 2 &&  event.target.id !== '='){
+        if (stack.length === 2 && event.target.id !== '='){
+            console.trace();
             stack.pop();
             stack.push(event.target.id);
             return;
