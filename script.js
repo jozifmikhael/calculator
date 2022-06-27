@@ -30,6 +30,7 @@ equals.addEventListener('click', () => {
 saveOp = undefined;
 function checkEqualsValidity(){
     // stack must have a number and operator in there and display text must not be empty
+    // if stack length is 2, perform operation on number itself
     if (stack.length == 1 && operatorsArr.includes(saveOp) && 
     display.textContent !== ''){
         let op = saveOp;
