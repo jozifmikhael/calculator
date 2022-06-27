@@ -1,75 +1,92 @@
 // get all digit buttons
-let digits = document.querySelectorAll('.digit');
+const digits = document.querySelectorAll('.digit');
 // get calculator display
-let display = document.querySelector('.display');
+const display = document.querySelector('.display');
 // get clear button
-let clear = document.querySelector('.clear');
+const clear = document.querySelector('.clear');
 // get operator buttons
-let operators = document.querySelectorAll('.operator');
-
-
+const operators = document.querySelectorAll('.operator');
+// let operatorsArr = ['+','-','/','*'];
+let operatorsArr = [];
+operators.forEach((operator) => operatorsArr.push(operator.id));
 // stacks to store numbers and operators
 let stack = [];
 display.textContent = null;
+
+
 // clear event listener
 clear.addEventListener('click', () => {
     stack = [];
-    display.textContent = '';
+    saveOp = undefined;
+    display.textContent = null;
 });
-let saveOp = undefined;
+
+// equal sign button logic
+let equals = document.getElementById('=');
+equals.addEventListener('click', () => {
+    checkEqualsValidity();
+});
+
+saveOp = undefined;
+function checkEqualsValidity(){
+    // stack must have a number and operator in there and display text must not be empty
+    if (stack.length == 1 && operatorsArr.includes(saveOp) && 
+    display.textContent !== ''){
+        let op = saveOp;
+        saveOp = undefined;
+        let num1 = stack.pop();
+        let num2 = display.textContent;
+        display.textContent = operate(op, num1, num2);
+        stack.push(+display.textContent);
+    } else if (stack.length == 2 && operatorsArr.includes(stack[stack.length -1])){
+        let op = stack.pop();
+        let num = stack.pop()
+        display.textContent = operate(op, num, num);
+        stack.push(display.textContent);
+    } else return;
+}
+
 // operator event listener
 operators.forEach( operator => {
     operator.addEventListener('click', event => {
-        
-        if (typeof saveOp === 'string'){
-            if (event.target.id !== '='){
-                let prevOperator = saveOp;
-                let prevNum = stack.pop();
-                let currNum = display.textContent;
-                display.textContent = operate(prevOperator, prevNum, currNum);
-            } else {
-                stack.push(saveOp);
-                saveOp = undefined;
-            }
-        }
-
-        if ((stack.length < 2 && event.target.id === '=') || 
-        (event.target.id === '=' && stack[stack.length-1] === '=')){
-            return;
-        }
-
-        if (event.target.id === '='){
-            console.trace();
-            let prevOperator = stack.pop();
-
-           let prevNum = stack.pop();
-           let currNum = display.textContent;
-           display.textContent = operate(prevOperator, prevNum, currNum);
-        }
-        
-        if (stack.length === 2 && event.target.id !== '='){
-            console.trace();
-            stack.pop();
-            stack.push(event.target.id);
-            return;
-        } else if (stack.length == 2 && display.textContent !== ''){
-            let prevOperator = stack.pop();
-            let prevNum = stack.pop();
-            let currNum = display.textContent;
-            display.textContent = operate(prevOperator, prevNum, currNum);
-        }
-
-        if (display.textContent !== ''){
-            stack.push(+display.textContent);
-            stack.push(event.target.id);
-        }
-        console.log(stack.length);
+        checkOperatorValidity(event);
     });
 });
+
+
+function checkOperatorValidity(event){
+    // if stack length is less than 2 add operator and display text, 
+    // if stack.length == 2, and display.text === stack[0] change operator else
+    // perform operation
+    if (typeof saveOp === 'string'){
+        stack.push(saveOp);
+        saveOp = undefined;
+    }
+
+    if (stack.length === 1 && typeof saveOp === "undefined"){
+        stack.push(event.target.id)
+        return;
+    }
+    if (stack.length === 0){
+        stack.push(+display.textContent);
+        stack.push(event.target.id);
+    } else {
+        let op = stack.pop();
+        let num1 = stack.pop();
+        let num2 = display.textContent;
+        display.textContent = operate(op, num1, num2);
+        stack.push(+display.textContent);
+    }
+    if(stack.length === 1){
+        stack.push(event.target.id);
+    }
+    
+}
+
 // digits event listener
 digits.forEach( digit => {
     digit.addEventListener('click', event => {
-        if (stack.length === 2){
+        if (stack.length == 2){
             saveOp = stack.pop();
             display.textContent = '';
         }
