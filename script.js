@@ -13,6 +13,28 @@ operators.forEach((operator) => operatorsArr.push(operator.id));
 let stack = [];
 display.textContent = null;
 
+// percentage event
+let percentage = document.querySelector('.percentage');
+percentage.addEventListener('click', () =>{
+    if (display.textContent == '')
+        return;
+    else{
+        percentage = operate('%', +display.textContent);
+        if (stack.length === 1){
+            stack.pop();
+            stack.push(percentage);
+            display.textContent = percentage;
+        } else display.textContent = percentage;      
+    } 
+});
+
+// decimal event
+let decimal = document.querySelector('.decimal');
+decimal.addEventListener('click', () => {
+    if (display.textContent.includes('.'))
+        return;
+    else display.textContent += '.';
+});
 
 // clear event listener
 clear.addEventListener('click', () => {
@@ -119,6 +141,12 @@ let divideFunc = (n1,n2) => {
     return num.toString().length > 9 ? num.toPrecision(9) : num;
 }
 
+let percentageFunc = n1 =>{
+    let num = n1 / 100;
+    return num.toString().length > 9 ? num.toPrecision(9) : num;
+}
+
+
 function operate(operator, n1, n2){
     let answer = 0;
     switch(operator){
@@ -133,6 +161,9 @@ function operate(operator, n1, n2){
             break;
         case '/':
             answer = divideFunc(n1, n2);
+            break;
+        case '%':
+            answer = percentageFunc(n1);
             break;
         default:
             console.error(`${operator} Invalid Operator`);
