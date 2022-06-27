@@ -20,7 +20,6 @@ let saveOp = undefined;
 // operator event listener
 operators.forEach( operator => {
     operator.addEventListener('click', event => {
-        
         if (typeof saveOp === 'string'){
             if (event.target.id !== '='){
                 let prevOperator = saveOp;
@@ -46,9 +45,12 @@ operators.forEach( operator => {
            let currNum = display.textContent;
            display.textContent = operate(prevOperator, prevNum, currNum);
         }
-        
+        if (stack.length === 2 && stack[stack.length-1] === '='){
+            stack.pop();
+            stack.push(event.target.id);
+            return;
+        }
         if (stack.length === 2 && event.target.id !== '='){
-            console.trace();
             stack.pop();
             stack.push(event.target.id);
             return;
@@ -57,6 +59,12 @@ operators.forEach( operator => {
             let prevNum = stack.pop();
             let currNum = display.textContent;
             display.textContent = operate(prevOperator, prevNum, currNum);
+        } else if (stack.length == 2 && event.target.id === '='){
+            let prevOperator = stack.pop();
+            let prevNum = stack.pop();
+            display.textContent = operate(prevOperator, prevNum, prevNum);
+            stack.push(+display.textContent);
+            return;
         }
 
         if (display.textContent !== ''){
@@ -78,13 +86,22 @@ digits.forEach( digit => {
     });
 });
 
-let addFunc = (n1, n2) => n1 + n2;
-
-let subtractFunc = (n1, n2) => n1 - n2;
-
-let multiplyFunc = (n1, n2) => n1 * n2;
-
-let divideFunc = (n1,n2) => n1 / n2;
+let addFunc = (n1, n2) => {
+    let num = n1 + n2;
+    return num.toString().length > 9 ? num.toPrecision(9) : num;
+}
+let subtractFunc = (n1, n2) => {
+    let num = n1 - n2;
+    return num.toString().length > 9 ? num.toPrecision(9) : num;
+}
+let multiplyFunc = (n1, n2) => {
+    let num = n1 * n2;
+    return num.toString().length > 9 ? num.toPrecision(9) : num;
+}
+let divideFunc = (n1,n2) => {
+    let num = n1 / n2;
+    return num.toString().length > 9 ? num.toPrecision(9) : num;
+}
 
 function operate(operator, n1, n2){
     let answer = 0;
