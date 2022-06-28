@@ -2,7 +2,7 @@
 # Calculator
 
 <p>Simple calculator with 4 basic operations (addition, subtraction, multiplication, and division) as well as
-support for floating point and decimal numbers </p>
+support for floating point and percentages </p>
 
 ## Instructions
 
