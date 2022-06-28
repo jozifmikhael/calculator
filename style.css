@@ -66,8 +66,12 @@ body{
 }
 
 .digits button{
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
+}
+
+.digits button:hover{
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .operators{
@@ -77,16 +81,15 @@ body{
 }
 
 .equals-decimal button.equals{
-    background-color: rgba(34, 34, 212, 0.904);
+    background-color: rgba(34, 34, 212, 0.5);
 }
 
 .operators button{
-    background-color: rgba(34, 34, 212, 0.904);
+    background-color: rgba(34, 34, 212, 0.5);
 }
 
 button{
     border-radius: 4px;
-    background-color: red;
     padding: 1px 0;
     font-size: 24px;
     text-align: center;
@@ -94,6 +97,6 @@ button{
     height: 60px;
 }
 
-button:hover{
-    opacity: 0.2;
+button:hover, .equals-decimal button.equals:hover{
+    background-color: rgba(34, 34, 212, 0.8);
 }

@@ -13,18 +13,23 @@ operators.forEach((operator) => operatorsArr.push(operator.id));
 let stack = [];
 display.textContent = null;
 
+// sign change event
+let sign = document.querySelector('.sign');
+sign.addEventListener('click', () => {
+    if (stack[0] === +display.textContent){
+        stack[0] *= -1;
+    }
+    display.textContent *= -1;
+});
+
 // percentage event
 let percentage = document.querySelector('.percentage');
 percentage.addEventListener('click', () =>{
-    if (display.textContent == '')
-        return;
+        percent = operate('%', +display.textContent);
+    if (stack[0] === +display.textContent)
+        stack[0] = percent;
     else{
-        percentage = operate('%', +display.textContent);
-        if (stack.length === 1){
-            stack.pop();
-            stack.push(percentage);
-            display.textContent = percentage;
-        } else display.textContent = percentage;      
+        display.textContent = percent;      
     } 
 });
 
