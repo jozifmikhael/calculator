@@ -21,3 +21,4 @@ support for floating point and decimal numbers </p>
 <li>Dividing by 0 will give you infinity and you will need to clear the memory in order to use the calculator again</li>
 <li>The calculator only supports up to 9 significant digits</li>
 </ul>
+<img src="./readme.png" alt="calculator">
