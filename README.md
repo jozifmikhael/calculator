@@ -4,6 +4,7 @@
 <p>Simple calculator with 4 basic operations (addition, subtraction, multiplication, and division) as well as
 support for floating point and percentages </p>
 
+<a href="https://jozifmikhael.github.io/calculator/">Live Demo</a>
 ## Instructions
 
 <ol>
