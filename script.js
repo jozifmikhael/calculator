@@ -26,6 +26,7 @@ sign.addEventListener('click', () => {
 let percentage = document.querySelector('.percentage');
 percentage.addEventListener('click', () =>{
         percent = operate('%', +display.textContent);
+        equalsFlag = false;
     if (stack[0] === +display.textContent)
         stack[0] = percent;
     else{
@@ -36,6 +37,7 @@ percentage.addEventListener('click', () =>{
 // decimal event
 let decimal = document.querySelector('.decimal');
 decimal.addEventListener('click', () => {
+    equalsFlag = false;
     if (display.textContent.includes('.'))
         return;
     else display.textContent += '.';
@@ -46,10 +48,12 @@ clear.addEventListener('click', () => {
     // clear stack and saveOp
     stack = [];
     saveOp = undefined;
+    equalsFlag = false;
     display.textContent = null;
 });
 
 // equal sign button logic
+let equalsFlag = false;
 let equals = document.getElementById('=');
 equals.addEventListener('click', () => {
     checkEqualsValidity();
@@ -70,11 +74,13 @@ function checkEqualsValidity(){
         let num2 = display.textContent;
         display.textContent = operate(op, num1, num2);
         stack.push(+display.textContent);
+        equalsFlag = true;
     } else if (stack.length == 2 && operatorsArr.includes(stack[stack.length -1])){
         let op = stack.pop();
         let num = stack.pop()
         display.textContent = operate(op, num, num);
-        stack.push(display.textContent);
+        stack.push(+display.textContent);
+        equalsFlag = true;
     } else return;
 }
 
@@ -87,17 +93,23 @@ operators.forEach( operator => {
 
 
 function checkOperatorValidity(event){
+    // check if equalsFlag is true, we continue operation on result
+    if (equalsFlag === true){
+        equalsFlag = false;
+    }
+    // override operator 
     // if saveOp is storing operator, push to stack and make saveOp null
     if (typeof saveOp === 'string'){
         stack.push(saveOp);
         saveOp = undefined;
     }
+
     // if operator is not valid, push the clicked operator and return
     if (stack.length === 1 && typeof saveOp === "undefined"){
         stack.push(event.target.id)
         return;
     }
-
+    
     // if stack is empty, push display number and operator
     // else we pop operator from stack and operate on prev number and display number
     if (stack.length === 0){
@@ -123,6 +135,12 @@ digits.forEach( digit => {
         if (stack.length == 2){
             saveOp = stack.pop();
             display.textContent = '';
+        }
+        // if equals was last button pressed, clear the display, clear the stack
+        if (equalsFlag === true){
+            display.textContent = '';
+            equalsFlag = false;
+            stack = [];
         }
         // check if display length is greater than 1 billion and add digit to display
         display.textContent.length <= 9 ? display.textContent += event.target.textContent : console.warn('max number reached');
@@ -168,7 +186,7 @@ function operate(operator, n1, n2){
             answer = divideFunc(n1, n2);
             break;
         case '%':
-            answer = percentageFunc(n1);
+            answer = percentageFunc(+n1);
             break;
         default:
             console.error(`${operator} Invalid Operator`);
